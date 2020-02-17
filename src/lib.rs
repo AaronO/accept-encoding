@@ -40,7 +40,7 @@ use failure::ResultExt;
 use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 
 /// Encodings to use.
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub enum Encoding {
     /// The Gzip encoding.
     Gzip,
