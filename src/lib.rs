@@ -6,13 +6,12 @@
 
 //! ## Examples
 //! ```rust
-//! # use failure::Error;
-//! use accept_encoding::Encoding;
+//! use accept_encoding::{Encoding,Error};
 //! use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 //!
-//! # fn main () -> Result<(), failure::Error> {
+//! # fn main () -> Result<(), Error> {
 //! let mut headers = HeaderMap::new();
-//! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip, deflate, br")?);
+//! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip, deflate, br").unwrap());
 //!
 //! let encoding = accept_encoding::parse(&headers)?;
 //! assert_eq!(encoding, Some(Encoding::Gzip));
@@ -20,13 +19,12 @@
 //! ```
 //!
 //! ```rust
-//! # use failure::Error;
-//! use accept_encoding::Encoding;
+//! use accept_encoding::{Encoding,Error};
 //! use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 //!
-//! # fn main () -> Result<(), failure::Error> {
+//! # fn main () -> Result<(), Error> {
 //! let mut headers = HeaderMap::new();
-//! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip;q=0.5, deflate;q=0.9, br;q=1.0")?);
+//! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip;q=0.5, deflate;q=0.9, br;q=1.0").unwrap());
 //!
 //! let encoding = accept_encoding::parse(&headers)?;
 //! assert_eq!(encoding, Some(Encoding::Brotli));
@@ -35,8 +33,7 @@
 
 mod error;
 
-pub use crate::error::{Error, ErrorKind, Result};
-use failure::ResultExt;
+pub use crate::error::{Error, Result};
 use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 
 /// Encodings to use.
@@ -64,7 +61,7 @@ impl Encoding {
             "zstd" => Ok(Some(Encoding::Zstd)),
             "identity" => Ok(Some(Encoding::Identity)),
             "*" => Ok(None),
-            _ => Err(ErrorKind::UnknownEncoding)?,
+            _ => Err(Error::UnknownEncoding)?,
         }
     }
 
@@ -111,13 +108,12 @@ pub fn parse(headers: &HeaderMap) -> Result<Option<Encoding>> {
 /// Either the `Accept-Encoding` header is not present, or `*` is set as the most preferred encoding.
 /// ## Examples
 /// ```rust
-/// # use failure::Error;
-/// use accept_encoding::Encoding;
+/// use accept_encoding::{Encoding,Error};
 /// use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 ///
-/// # fn main () -> Result<(), failure::Error> {
+/// # fn main () -> Result<(), Error> {
 /// let mut headers = HeaderMap::new();
-/// headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("zstd;q=1.0, deflate;q=0.8, br;q=0.9")?);
+/// headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("zstd;q=1.0, deflate;q=0.8, br;q=0.9").unwrap());
 ///
 /// let encodings = accept_encoding::encodings(&headers)?;
 /// for (encoding, qval) in encodings {
@@ -129,11 +125,7 @@ pub fn encodings(headers: &HeaderMap) -> Result<Vec<(Option<Encoding>, f32)>> {
     headers
         .get_all(ACCEPT_ENCODING)
         .iter()
-        .map(|hval| {
-            hval.to_str()
-                .context(ErrorKind::InvalidEncoding)
-                .map_err(Into::into)
-        })
+        .map(|hval| hval.to_str().map_err(|_| Error::InvalidEncoding))
         .collect::<Result<Vec<&str>>>()?
         .iter()
         .flat_map(|s| s.split(',').map(str::trim))
@@ -146,10 +138,10 @@ pub fn encodings(headers: &HeaderMap) -> Result<Vec<(Option<Encoding>, f32)>> {
             let qval = if let Some(qval) = v.next() {
                 let qval = match qval.parse::<f32>() {
                     Ok(f) => f,
-                    Err(_) => return Some(Err(ErrorKind::InvalidEncoding)),
+                    Err(_) => return Some(Err(Error::InvalidEncoding)),
                 };
                 if qval > 1.0 {
-                    return Some(Err(ErrorKind::InvalidEncoding)); // q-values over 1 are unacceptable
+                    return Some(Err(Error::InvalidEncoding)); // q-values over 1 are unacceptable
                 }
                 qval
             } else {
