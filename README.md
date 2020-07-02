@@ -11,15 +11,15 @@ Determine the best encoding possible from an Accept-Encoding HTTP header.
 ## Examples
 __Basic usage__
 ```rust
-use accept_encoding::Encoding;
-use failure::Error;
+use fly_accept_encoding::Encoding;
+use anyhow::Error;
 use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 
-fn main () -> Result<(), failure::Error> {
+fn main () -> Result<(), Error> {
   let mut headers = HeaderMap::new();
   headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip, deflate, br")?);
 
-  let encoding = accept_encoding::parse(&headers)?;
+  let encoding = fly_accept_encoding::parse(&headers)?;
   assert_eq!(encoding, Some(Encoding::Gzip));
   Ok(())
 }
@@ -27,7 +27,7 @@ fn main () -> Result<(), failure::Error> {
 
 ## Installation
 ```sh
-$ cargo add accept-encoding
+$ cargo add fly-accept-encoding
 ```
 
 ## Safety
@@ -47,16 +47,16 @@ None.
 ## License
 [MIT](./LICENSE-MIT) OR [Apache-2.0](./LICENSE-APACHE)
 
-[1]: https://img.shields.io/crates/v/accept-encoding.svg?style=flat-square
-[2]: https://crates.io/crates/accept-encoding
-[3]: https://img.shields.io/travis/rustasync/accept-encoding/master.svg?style=flat-square
-[4]: https://travis-ci.org/rustasync/accept-encoding
-[5]: https://img.shields.io/crates/d/accept-encoding.svg?style=flat-square
-[6]: https://crates.io/crates/accept-encoding
+[1]: https://img.shields.io/crates/v/fly-accept-encoding.svg?style=flat-square
+[2]: https://crates.io/crates/fly-accept-encoding
+[3]: https://img.shields.io/travis/superfly/accept-encoding/master.svg?style=flat-square
+[4]: https://travis-ci.org/superfly/accept-encoding
+[5]: https://img.shields.io/crates/d/fly-accept-encoding.svg?style=flat-square
+[6]: https://crates.io/crates/fly-accept-encoding
 [7]: https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square
-[8]: https://docs.rs/accept-encoding
+[8]: https://docs.rs/fly-accept-encoding
 
-[releases]: https://github.com/rustasync/accept-encoding/releases
-[contributing]: https://github.com/rustasync/accept-encoding/blob/master.github/CONTRIBUTING.md
-[good-first-issue]: https://github.com/rustasync/accept-encoding/labels/good%20first%20issue
-[help-wanted]: https://github.com/rustasync/accept-encoding/labels/help%20wanted
+[releases]: https://github.com/superfly/accept-encoding/releases
+[contributing]: https://github.com/superfly/accept-encoding/blob/master.github/CONTRIBUTING.md
+[good-first-issue]: https://github.com/superfly/accept-encoding/labels/good%20first%20issue
+[help-wanted]: https://github.com/superfly/accept-encoding/labels/help%20wanted
