@@ -1,4 +1,4 @@
-# accept-encoding
+# fly-accept-encoding
 [![crates.io version][1]][2] [![build status][3]][4]
 [![downloads][5]][6] [![docs.rs docs][7]][8]
 
@@ -7,6 +7,8 @@ Determine the best encoding possible from an Accept-Encoding HTTP header.
 - [Documentation][8]
 - [Crates.io][2]
 - [Releases][releases]
+
+**Note:** this is a fork of https://github.com/http-rs/accept-encoding with a few more features.
 
 ## Examples
 __Basic usage__

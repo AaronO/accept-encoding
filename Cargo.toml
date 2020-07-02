@@ -1,18 +1,17 @@
 [package]
-name = "fly-accept-encoding"
-version = "0.2.0-alpha.5"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/superfly/accept-encoding"
+authors       = ["Jerome Gravel-Niquet <jeromegn@gmail.com>"]
+categories    = ["compression", "web-programming", "web-programming::http-server"]
+description   = "Determine the best encoding possible from an Accept-Encoding HTTP header."
 documentation = "https://docs.rs/fly-accept-encoding"
-description = "Determine the best encoding possible from an Accept-Encoding HTTP header."
-keywords = ["accept-encoding", "gzip", "brotli", "http", "server"]
-categories = ["compression", "web-programming", "web-programming::http-server"]
-authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>", "Jerome Gravel-Niquet <jeromegn@gmail.com>"]
-readme = "README.md"
-edition = "2018"
+edition       = "2018"
+include       = ["src/**/*.rs", "Cargo.toml"]
+keywords      = ["accept-encoding", "gzip", "brotli", "zstd", "http", "server"]
+license       = "MIT OR Apache-2.0"
+name          = "fly-accept-encoding"
+readme        = "README.md"
+repository    = "https://github.com/superfly/accept-encoding"
+version       = "0.2.0-alpha.5"
 
 [dependencies]
-http = "0.2"
+http      = "0.2"
 thiserror = "1.0"
-
-[dev-dependencies]
