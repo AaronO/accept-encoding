@@ -1,14 +1,12 @@
 extern crate accept_encoding;
-extern crate failure;
 
-use accept_encoding::Encoding;
-use failure::Error;
+use accept_encoding::{Encoding, Error};
 use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 
 #[test]
 fn single_encoding() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
-    headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip")?);
+    headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip").unwrap());
 
     let encoding = accept_encoding::parse(&headers)?.unwrap();
     assert_eq!(encoding, Encoding::Gzip);
@@ -19,7 +17,10 @@ fn single_encoding() -> Result<(), Error> {
 #[test]
 fn multiple_encodings() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
-    headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip, deflate, br")?);
+    headers.insert(
+        ACCEPT_ENCODING,
+        HeaderValue::from_str("gzip, deflate, br").unwrap(),
+    );
 
     let encoding = accept_encoding::parse(&headers)?.unwrap();
     assert_eq!(encoding, Encoding::Gzip);
@@ -30,7 +31,10 @@ fn multiple_encodings() -> Result<(), Error> {
 #[test]
 fn single_encoding_with_qval() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
-    headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("deflate;q=1.0")?);
+    headers.insert(
+        ACCEPT_ENCODING,
+        HeaderValue::from_str("deflate;q=1.0").unwrap(),
+    );
 
     let encoding = accept_encoding::parse(&headers)?.unwrap();
     assert_eq!(encoding, Encoding::Deflate);
@@ -43,7 +47,7 @@ fn multiple_encodings_with_qval_1() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
     headers.insert(
         ACCEPT_ENCODING,
-        HeaderValue::from_str("deflate, gzip;q=1.0, *;q=0.5")?,
+        HeaderValue::from_str("deflate, gzip;q=1.0, *;q=0.5").unwrap(),
     );
 
     let encoding = accept_encoding::parse(&headers)?.unwrap();
@@ -57,7 +61,7 @@ fn multiple_encodings_with_qval_2() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
     headers.insert(
         ACCEPT_ENCODING,
-        HeaderValue::from_str("gzip;q=0.5, deflate;q=1.0, *;q=0.5")?,
+        HeaderValue::from_str("gzip;q=0.5, deflate;q=1.0, *;q=0.5").unwrap(),
     );
 
     let encoding = accept_encoding::parse(&headers)?.unwrap();
@@ -71,7 +75,7 @@ fn multiple_encodings_with_qval_3() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
     headers.insert(
         ACCEPT_ENCODING,
-        HeaderValue::from_str("gzip;q=0.5, deflate;q=0.75, *;q=1.0")?,
+        HeaderValue::from_str("gzip;q=0.5, deflate;q=0.75, *;q=1.0").unwrap(),
     );
 
     let encoding = accept_encoding::parse(&headers)?;
@@ -87,7 +91,7 @@ fn list_encodings() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
     headers.insert(
         ACCEPT_ENCODING,
-        HeaderValue::from_str("zstd;q=1.0, deflate;q=0.8, br;q=0.9")?,
+        HeaderValue::from_str("zstd;q=1.0, deflate;q=0.8, br;q=0.9").unwrap(),
     );
 
     let encodings = accept_encoding::encodings(&headers)?;
@@ -104,7 +108,7 @@ fn list_encodings_ignore_unknown() -> Result<(), Error> {
     let mut headers = HeaderMap::new();
     headers.insert(
         ACCEPT_ENCODING,
-        HeaderValue::from_str("zstd;q=1.0, unknown;q=0.8, br;q=0.9")?,
+        HeaderValue::from_str("zstd;q=1.0, unknown;q=0.8, br;q=0.9").unwrap(),
     );
 
     let encodings = accept_encoding::encodings(&headers)?;
