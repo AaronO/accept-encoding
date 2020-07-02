@@ -6,27 +6,27 @@
 
 //! ## Examples
 //! ```rust
-//! use accept_encoding::{Encoding,Error};
+//! use fly_accept_encoding::{Encoding,Error};
 //! use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 //!
 //! # fn main () -> Result<(), Error> {
 //! let mut headers = HeaderMap::new();
 //! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip, deflate, br").unwrap());
 //!
-//! let encoding = accept_encoding::parse(&headers)?;
+//! let encoding = fly_accept_encoding::parse(&headers)?;
 //! assert_eq!(encoding, Some(Encoding::Gzip));
 //! # Ok(())}
 //! ```
 //!
 //! ```rust
-//! use accept_encoding::{Encoding,Error};
+//! use fly_accept_encoding::{Encoding,Error};
 //! use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 //!
 //! # fn main () -> Result<(), Error> {
 //! let mut headers = HeaderMap::new();
 //! headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("gzip;q=0.5, deflate;q=0.9, br;q=1.0").unwrap());
 //!
-//! let encoding = accept_encoding::parse(&headers)?;
+//! let encoding = fly_accept_encoding::parse(&headers)?;
 //! assert_eq!(encoding, Some(Encoding::Brotli));
 //! # Ok(())}
 //! ```
@@ -108,14 +108,14 @@ pub fn parse(headers: &HeaderMap) -> Result<Option<Encoding>> {
 /// Either the `Accept-Encoding` header is not present, or `*` is set as the most preferred encoding.
 /// ## Examples
 /// ```rust
-/// use accept_encoding::{Encoding,Error};
+/// use fly_accept_encoding::{Encoding,Error};
 /// use http::header::{HeaderMap, HeaderValue, ACCEPT_ENCODING};
 ///
 /// # fn main () -> Result<(), Error> {
 /// let mut headers = HeaderMap::new();
 /// headers.insert(ACCEPT_ENCODING, HeaderValue::from_str("zstd;q=1.0, deflate;q=0.8, br;q=0.9").unwrap());
 ///
-/// let encodings = accept_encoding::encodings(&headers)?;
+/// let encodings = fly_accept_encoding::encodings(&headers)?;
 /// for (encoding, qval) in encodings {
 ///     println!("{:?} {}", encoding, qval);
 /// }

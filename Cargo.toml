@@ -1,13 +1,13 @@
 [package]
-name = "accept-encoding"
-version = "0.2.0-alpha.3"
+name = "fly-accept-encoding"
+version = "0.2.0-alpha.5"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/rust-net-web/accept-encoding"
-documentation = "https://docs.rs/accept-encoding"
+repository = "https://github.com/superfly/accept-encoding"
+documentation = "https://docs.rs/fly-accept-encoding"
 description = "Determine the best encoding possible from an Accept-Encoding HTTP header."
 keywords = ["accept-encoding", "gzip", "brotli", "http", "server"]
 categories = ["compression", "web-programming", "web-programming::http-server"]
-authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
+authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>", "Jerome Gravel-Niquet <jeromegn@gmail.com>"]
 readme = "README.md"
 edition = "2018"
 
